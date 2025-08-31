@@ -269,6 +269,17 @@
           font-style: normal;
           font-display: swap;
         }
+
+.animate-fade-up {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: all 0.8s ease-out;
+  }
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
     </style>
     <!-- GSAP CDN Links -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -332,7 +343,7 @@
         </div>
     </section>
 
-    <section id="about" class="py-24 px-6 md:py-32">
+    <section id="about" class="min-h-screen flex items-center px-6">
         <div class="container mx-auto max-w-4xl reveal-up">
             <h2 class="section-header mb-12 text-center reveal-up">About Me</h2>
             <div class="flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-12">
@@ -351,7 +362,7 @@
         </div>
     </section>
 
-    <section id="skills" class="py-24 px-6 md:py-32">
+    <section id="skills" class="min-h-screen flex items-center px-6">
         <div class="container mx-auto max-w-4xl reveal-up">
             <h2 class="section-header mb-12 text-center reveal-up">My Skills</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 text-center reveal-up">
@@ -571,6 +582,21 @@
                     }
                 );
             });
+
+            
+    // ✅ Reveal Up Animation (IntersectionObserver fallback)
+    const reveals = document.querySelectorAll(".reveal-up");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("animate-fade-up");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(reveal => observer.observe(reveal));
 
             // Smooth scrolling for navigation links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
